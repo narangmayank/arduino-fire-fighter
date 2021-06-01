@@ -11,7 +11,7 @@
 int ps=0;                 //  Previous State of Switch
 int count=0;              //  Counter
 int button=2;             //  Switch to Control the Robo
-bool fire = false;
+bool fire=false;
 
 #define left_sensor 3     //  Left flame sensor Connected to pin D3
 #define middle_sensor 4   //  Middle flame sensor connected to pin D4
@@ -33,8 +33,8 @@ Servo myservo;            // Instance of Servo Class
 int angle=0;              // Angle for servo motor
  
 
-void ExtinguishFire(){   
-  
+void ExtinguishFire()
+{     
   delay(100);                // Hold to get steady
   digitalWrite(LM1, HIGH);   // Stop the Robo
   digitalWrite(LM2, HIGH);
@@ -69,9 +69,9 @@ void ExtinguishFire(){
 
 void setup() {
   
-  pinMode(button,INPUT_PULLUP);  // Button --> Input with PullUp
+  pinMode(button,INPUT_PULLUP);         // Button --> Input with PullUp
 
-  pinMode(blue_led,OUTPUT);     // LED's --> Output
+  pinMode(blue_led,OUTPUT);             // LED's --> Output
   pinMode(green_led,OUTPUT);
   pinMode(red_led,OUTPUT);
   
@@ -79,15 +79,15 @@ void setup() {
   pinMode(middle_sensor,INPUT_PULLUP);
   pinMode(right_sensor,INPUT_PULLUP);
 
-  pinMode(LM1, OUTPUT);         // Motor Control pins --> Output
+  pinMode(LM1, OUTPUT);                // Motor Control pins --> Output
   pinMode(LM2, OUTPUT);
   pinMode(RM1, OUTPUT);
   pinMode(RM2, OUTPUT);
    
-  pinMode(pump1,OUTPUT);        // Pump Control pins to Output
+  pinMode(pump1,OUTPUT);              // Pump Control pins to Output
   pinMode(pump2,OUTPUT);
     
-  myservo.attach(6);           // Servo is attched to pin D6 (PWM)
+  myservo.attach(6);                  // Servo is attched to pin D6 (PWM)
 }
 
 void loop() {
@@ -100,20 +100,20 @@ void loop() {
     count++;                       // Increment Counter
   }
   
-  if(count==1)                      // Now Switch is pressed and our Robo is Active
+  if(count==1)                     // Now Switch is pressed and our Robo is Active
   {  
-    digitalWrite(blue_led,HIGH);    // Blue LED On
+    digitalWrite(blue_led,HIGH);   // Blue LED On
     
-    int left_reading=digitalRead(left_sensor);      // Read the Sensors data
-    int middle_reading=digitalRead(middle_sensor);
-    int right_reading=digitalRead(right_sensor);
+    int left_reading   =  digitalRead(left_sensor);     // Read the Sensors data
+    int middle_reading =  digitalRead(middle_sensor);
+    int right_reading  =  digitalRead(right_sensor);
 
-    while (fire == true)     // Extinguish the fire till it's stop               
+    while (fire == true)                                // Extinguish the fire till it's stop               
     {
       ExtinguishFire();          
-      if (left_reading == 1 && middle_reading == 1 && right_reading == 1)
+      if (digitalRead(left_sensor) == 1 && digitalRead(middle_sensor) == 1 && digitalRead(right_sensor) == 1)         
       {
-        fire = false;
+        fire = false;                                   // Reset the Fire Status if Fire is stopped
       }
     }
     
@@ -127,7 +127,7 @@ void loop() {
       digitalWrite(RM1, HIGH);
       digitalWrite(RM2, LOW);
       delay(400);                  
-      fire = true; 
+      fire = true;                   // Set the Fire status
     }
     else if (middle_reading == 0)    // Fire is in the Straight 
     {
@@ -139,7 +139,7 @@ void loop() {
       digitalWrite(RM1, HIGH);
       digitalWrite(RM2, LOW);
       delay(400);
-      fire = true; 
+      fire = true;                   // Set the Fire status
     }
     else if (right_reading == 0)     // Fire is in the right 
     {
@@ -151,9 +151,9 @@ void loop() {
       digitalWrite(RM1, HIGH);
       digitalWrite(RM2, HIGH);
       delay(400);
-      fire = true; 
+      fire = true;                   // Set the Fire status
     }
-    else                              // No fire is detected
+    else                             // No fire is detected
     { 
       digitalWrite(green_led,HIGH);  // Green LED On (Safe)
       digitalWrite(red_led,LOW);     // Red   LED Off
@@ -162,7 +162,7 @@ void loop() {
       digitalWrite(LM2, HIGH);
       digitalWrite(RM1, HIGH);
       digitalWrite(RM2, HIGH);
-      fire = false;
+      fire = false;                  // Reset the Fire status
     }
   }
   
